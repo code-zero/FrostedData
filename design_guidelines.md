@@ -1,7 +1,7 @@
-# Apple-Inspired Frosted CRUD Application Design Guidelines
+# FrostedData Application Design Guidelines
 
 ## Design Approach
-**Reference-Based Approach**: Drawing directly from Apple's iOS and macOS design language, emphasizing clean minimalism, frosted glass effects, and premium feel through subtle details and smooth interactions.
+**FrostedData Philosophy**: A modern data management application that combines Apple's design language with enhanced glass morphism, shimmer effects, and multiple design variations. The application features dynamic theming and customizable layouts while maintaining professional usability.
 
 ## Core Design Elements
 
@@ -51,15 +51,25 @@
 - Consistent spacing and typography hierarchy
 
 ### E. Visual Effects
+
 **Frosted Glass:**
-- Backdrop blur effects on modal overlays and key containers
-- Subtle opacity (0.8-0.9) with blur filters
-- Applied to form containers and floating elements
+- Enhanced backdrop blur effects with dynamic opacity
+- CSS `backdrop-filter: blur(20px)` for deep frosted effect
+- Applied to dropdowns, modals, and luxury design variant elements
+- Responsive to light/dark mode with adjusted transparency
+
+**Shimmer Effects:**
+- Diagonal shimmer animations moving across glass elements
+- `shimmer` class for continuous diagonal light sweep
+- `card-shimmer` for hover-triggered shimmer on cards
+- `shimmer-glow` for subtle pulsing glow effects
+- Automatic light/dark mode adaptation
 
 **Shadows:**
-- Subtle, consistent shadow system
-- Light elevation for cards and interactive elements
-- No harsh drop shadows - maintain Apple's soft approach
+- Adaptive shadow system that responds to design variants
+- Luxury variant: Enhanced shadows with larger blur radius
+- Minimal variant: Subtle shadows for clean aesthetic
+- All shadows automatically adapt to light/dark themes
 
 ### F. Animations
 **Transitions (0.3s ease):**
@@ -87,4 +97,28 @@
 - Proper focus states with Apple blue accent
 - Semantic HTML structure for screen readers
 
-This design creates a premium, Apple-inspired CRUD application that feels native and polished while maintaining excellent usability across all devices.
+## New Features
+
+### F. Design Variations
+**Five Professional Layouts:**
+1. **Classic**: Traditional frosted glass with balanced elements
+2. **Minimal**: Clean, simple design with subtle effects
+3. **Modern**: Contemporary with bold accents and gradients
+4. **Compact**: Space-efficient list-focused layout
+5. **Luxury**: Premium with enhanced effects and shimmer
+
+### G. Theme System
+**Dynamic Light/Dark Mode:**
+- System preference detection
+- Manual theme toggle with smooth transitions
+- All components and effects adapt automatically
+- Persistent user preference storage
+
+### H. Advanced Interactions
+**Enhanced Animation System:**
+- Diagonal shimmer effects on glass elements
+- Hover-triggered card shimmer animations
+- Smooth theme transitions
+- Design variant switching with preserved state
+
+This creates FrostedData: a premium, customizable data management application that combines beautiful design with powerful functionality across all devices and user preferences.

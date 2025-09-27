@@ -5,8 +5,13 @@ import ItemForm from '@/components/ItemForm';
 import DeleteConfirmModal from '@/components/DeleteConfirmModal';
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { DesignSelector } from "@/components/DesignSelector";
+import { useDesign } from "@/components/DesignProvider";
 
 export default function Home() {
+  const { design } = useDesign();
+  
   // Mock data - todo: replace with real API calls
   const [items, setItems] = useState<Item[]>([
     {
@@ -139,18 +144,38 @@ export default function Home() {
     setIsDeleting(false);
   };
 
+  const getDesignClasses = () => {
+    switch (design) {
+      case "minimal":
+        return "min-h-screen bg-background";
+      case "modern":
+        return "min-h-screen bg-gradient-to-br from-primary/5 to-secondary/5";
+      case "compact":
+        return "min-h-screen bg-muted/20";
+      case "luxury":
+        return "min-h-screen bg-gradient-to-br from-primary/10 via-accent/5 to-secondary/10 shimmer";
+      default:
+        return "min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800";
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className={getDesignClasses()}>
       <div className="container mx-auto px-4 py-8 max-w-7xl">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Apple-Inspired CRUD
-          </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            A beautiful, modern data management application with frosted glass effects 
-            and smooth animations inspired by Apple's design language.
-          </p>
+        {/* Header with Controls */}
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex-1">
+            <h1 className="text-4xl font-bold text-foreground mb-2 shimmer-glow">
+              FrostedData
+            </h1>
+            <p className="text-lg text-muted-foreground max-w-2xl">
+              Beautiful data management with frosted glass effects and smooth animations
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <DesignSelector />
+            <ThemeToggle />
+          </div>
         </div>
 
         {/* Main Content */}

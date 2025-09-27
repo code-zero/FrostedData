@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Plus, Search, Filter, Grid, List } from "lucide-react";
 import ItemCard from './ItemCard';
 import { Item } from "@shared/schema";
+import { useDesign } from "./DesignProvider";
 
 interface ItemListProps {
   items: Item[];
@@ -16,6 +17,7 @@ interface ItemListProps {
 }
 
 export default function ItemList({ items, onAddNew, onEdit, onDelete, isLoading = false }: ItemListProps) {
+  const { design } = useDesign();
   const [searchTerm, setSearchTerm] = useState('');
   const [filterCategory, setFilterCategory] = useState<string>('all');
   const [filterStatus, setFilterStatus] = useState<string>('all');
@@ -34,10 +36,40 @@ export default function ItemList({ items, onAddNew, onEdit, onDelete, isLoading 
   const categories = Array.from(new Set(items.map(item => item.category)));
   const statuses = Array.from(new Set(items.map(item => item.status)));
 
+  const getHeaderCardClasses = () => {
+    switch (design) {
+      case "minimal":
+        return "border-border bg-card shadow-sm";
+      case "modern":
+        return "border-primary/20 bg-gradient-to-r from-card to-primary/5 shadow-lg";
+      case "compact":
+        return "border-border bg-card/90 backdrop-blur-sm shadow-sm rounded-lg";
+      case "luxury":
+        return "border-primary/30 bg-gradient-to-r from-card/80 to-primary/5 backdrop-blur-lg shadow-xl frosted-glass shimmer";
+      default:
+        return "border border-gray-200/50 bg-white/80 dark:bg-card/80 backdrop-blur-sm shadow-sm";
+    }
+  };
+
+  const getGridClasses = () => {
+    switch (design) {
+      case "compact":
+        return "space-y-2"; // Always list view for compact
+      case "luxury":
+        return viewMode === 'grid' 
+          ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8" 
+          : "space-y-6";
+      default:
+        return viewMode === 'grid' 
+          ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" 
+          : "space-y-4";
+    }
+  };
+
   return (
     <div className="w-full space-y-6">
       {/* Header */}
-      <Card className="border border-gray-200/50 bg-white/80 backdrop-blur-sm shadow-sm">
+      <Card className={getHeaderCardClasses()}>
         <CardHeader>
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
@@ -159,7 +191,7 @@ export default function ItemList({ items, onAddNew, onEdit, onDelete, isLoading 
             ))}
           </div>
         ) : filteredItems.length === 0 ? (
-          <Card className="border border-gray-200/50 bg-white/80 backdrop-blur-sm">
+          <Card className={getHeaderCardClasses()}>
             <CardContent className="pt-12 pb-12 text-center">
               <div className="text-gray-400 text-6xl mb-4">📝</div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
@@ -188,10 +220,7 @@ export default function ItemList({ items, onAddNew, onEdit, onDelete, isLoading 
             </CardContent>
           </Card>
         ) : (
-          <div className={viewMode === 'grid' 
-            ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" 
-            : "space-y-4"
-          }>
+          <div className={design === 'compact' ? "space-y-2" : getGridClasses()}>
             {filteredItems.map((item) => (
               <div 
                 key={item.id} 

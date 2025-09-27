@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Edit, Trash2, Calendar } from "lucide-react";
 import { Item } from "@shared/schema";
 import { format } from "date-fns";
+import { useDesign } from "./DesignProvider";
 
 interface ItemCardProps {
   item: Item;
@@ -12,6 +13,8 @@ interface ItemCardProps {
 }
 
 export default function ItemCard({ item, onEdit, onDelete }: ItemCardProps) {
+  const { design } = useDesign();
+  
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case 'active': return 'bg-green-100 text-green-800 hover:bg-green-200';
@@ -32,9 +35,25 @@ export default function ItemCard({ item, onEdit, onDelete }: ItemCardProps) {
     }
   };
 
+  const getCardClasses = () => {
+    const baseClasses = "hover-elevate transition-all duration-300";
+    switch (design) {
+      case "minimal":
+        return `${baseClasses} border-border bg-card hover:shadow-md card-shimmer`;
+      case "modern":
+        return `${baseClasses} border-primary/20 bg-gradient-to-br from-card to-card/50 shadow-lg card-shimmer`;
+      case "compact":
+        return `${baseClasses} border-border bg-card/90 backdrop-blur-sm shadow-sm`;
+      case "luxury":
+        return `${baseClasses} border-primary/30 bg-gradient-to-br from-card/80 to-primary/5 backdrop-blur-lg shadow-xl frosted-glass shimmer-glow`;
+      default:
+        return `${baseClasses} border border-gray-200/50 bg-white/80 dark:bg-card/80 backdrop-blur-sm shadow-sm card-shimmer`;
+    }
+  };
+
   return (
     <Card 
-      className="hover-elevate transition-all duration-300 border border-gray-200/50 bg-white/80 backdrop-blur-sm shadow-sm" 
+      className={getCardClasses()} 
       data-testid={`card-item-${item.id}`}
     >
       <CardHeader className="pb-3">
