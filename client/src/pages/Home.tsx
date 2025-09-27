@@ -12,7 +12,7 @@ import { useDesign } from "@/components/DesignProvider";
 export default function Home() {
   const { design } = useDesign();
   
-  // Mock data - todo: replace with real API calls
+  // Mock data - todo: replace with real API calls and loading states
   const [items, setItems] = useState<Item[]>([
     {
       id: '1',
