@@ -11,11 +11,14 @@ export default defineConfig({
       "@assets": path.resolve(import.meta.dirname, "attached_assets"),
     },
   },
-  root: path.resolve(import.meta.dirname, "client"), // Build from client
-  base: '/FrostedData/', // GitHub Pages subdir
+  root: path.resolve(import.meta.dirname, "client"),
+  base: "/", // Dev uses root, Pages gets /FrostedData/ later
   build: {
-    outDir: '.', // Output to root
-    assetsDir: 'assets',
+    outDir: "dist-output",
+    assetsDir: "assets",
     emptyOutDir: true,
+  },
+  server: {
+    port: 5174, // Avoid Express port 5000
   },
 });
