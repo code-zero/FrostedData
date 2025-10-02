@@ -11,7 +11,7 @@
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 211 100% 50%;
     --primary-foreground: 210 40% 98%;
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -26,6 +26,28 @@
     --ring: 222.2 84% 4.9%;
     --radius: 0.5rem;
   }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
 }
 
 @layer base {
@@ -34,6 +56,110 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
   }
+}
+
+/* Frosted Glass Effects */
+.frosted-glass {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .frosted-glass {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Diagonal Shimmer Animation */
+@keyframes shimmer {
+  0% {
+    transform: translate(-100%) translateY(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translate(300%) translateY(300%) rotate(45deg);
+  }
+}
+
+@keyframes shimmer-glow {
+  0%, 100% {
+    opacity: 0;
+    box-shadow: 0 0 10px rgba(0, 150, 255, 0);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 20px rgba(0, 150, 255, 0.3);
+  }
+}
+
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 70%
+  );
+  transform: translate(-100%) translateY(-100%) rotate(45deg);
+  animation: shimmer 3s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.dark .shimmer::before {
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 70%
+  );
+}
+
+.shimmer-glow {
+  animation: shimmer-glow 2s ease-in-out infinite;
+}
+
+/* Card Shimmer on Hover */
+.card-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-shimmer:hover::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 150, 255, 0.1),
+    transparent
+  );
+  animation: shimmer 1.5s ease-out;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.dark .card-shimmer:hover::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
 }
