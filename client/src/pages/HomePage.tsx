@@ -1,4 +1,7 @@
 
+import { ThemeToggle } from '../components/ThemeToggle';
+import { DesignSelector } from '../components/DesignSelector';
+
 export default function HomePage() {
   return (
     <div className="container mx-auto p-8">
@@ -9,9 +12,13 @@ export default function HomePage() {
             Beautiful data management with frosted glass effects and smooth animations
           </p>
         </div>
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <DesignSelector />
+        </div>
       </div>
       <div className="text-center py-12">
-        <p className="text-muted-foreground">Your application is now running!</p>
+        <p className="text-muted-foreground">Your application is now running with dark mode toggle and design selector!</p>
       </div>
     </div>
   );
