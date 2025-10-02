@@ -12,7 +12,7 @@ export default defineConfig({
     },
   },
   root: path.resolve(import.meta.dirname, "client"),
-  base: "/", // Local dev root
+  base: "/FrostedData/",
   build: {
     outDir: "dist-output",
     emptyOutDir: true,
