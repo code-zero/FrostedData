@@ -107,7 +107,7 @@ export function ItemForm({ item, onSave, onCancel }: ItemFormProps) {
           <div className="flex gap-4 pt-4">
             <Button
               type="submit"
-              className="flex-1 py-6 text-lg rounded-2xl shimmer-glow"
+              className="flex-1 py-6 text-lg rounded-2xl button-shimmer"
             >
               {item ? 'Update Item' : 'Create Item'}
             </Button>

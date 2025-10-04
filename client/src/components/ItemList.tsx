@@ -31,12 +31,17 @@ const statusColors = {
 
 export function ItemList({ items, onAddNew, onEdit, onDelete }: ItemListProps) {
   const [searchTerm, setSearchTerm] = useState('');
+  const [filterCategory, setFilterCategory] = useState<string>('all');
+  const [filterStatus, setFilterStatus] = useState<string>('all');
   const { design } = useDesign();
 
-  const filteredItems = items.filter(item =>
-    item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.description.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredItems = items.filter(item => {
+    const matchesSearch = item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = filterCategory === 'all' || item.category === filterCategory;
+    const matchesStatus = filterStatus === 'all' || item.status === filterStatus;
+    return matchesSearch && matchesCategory && matchesStatus;
+  });
 
   const gridClass = design === 'compact' 
     ? 'space-y-3' 
@@ -47,24 +52,59 @@ export function ItemList({ items, onAddNew, onEdit, onDelete }: ItemListProps) {
   return (
     <div className="space-y-6">
       {/* Actions Bar */}
-      <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
-        <div className="relative w-full sm:w-96">
-          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
-          <input
-            type="text"
-            placeholder="Search items..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-12 pr-6 py-4 bg-card frosted-glass border border-border rounded-2xl text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"
-          />
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
+          <div className="relative w-full sm:w-96">
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
+            <input
+              type="text"
+              placeholder="Search items..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-12 pr-6 py-4 bg-card frosted-glass border border-border rounded-2xl text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"
+            />
+          </div>
+          <Button
+            onClick={onAddNew}
+            className="w-full sm:w-auto py-6 px-8 text-lg rounded-2xl button-shimmer"
+          >
+            <Plus className="mr-2 h-5 w-5" />
+            Add New Item
+          </Button>
         </div>
-        <Button
-          onClick={onAddNew}
-          className="w-full sm:w-auto py-6 px-8 text-lg rounded-2xl shimmer-glow"
-        >
-          <Plus className="mr-2 h-5 w-5" />
-          Add New Item
-        </Button>
+        
+        {/* Filters */}
+        <div className="flex flex-wrap gap-3">
+          <select
+            value={filterCategory}
+            onChange={(e) => setFilterCategory(e.target.value)}
+            className="px-4 py-2 bg-card frosted-glass border border-border rounded-xl text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"
+          >
+            <option value="all">All Categories</option>
+            <option value="work">Work</option>
+            <option value="personal">Personal</option>
+            <option value="health">Health</option>
+            <option value="finance">Finance</option>
+            <option value="education">Education</option>
+            <option value="travel">Travel</option>
+          </select>
+          
+          <select
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+            className="px-4 py-2 bg-card frosted-glass border border-border rounded-xl text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"
+          >
+            <option value="all">All Statuses</option>
+            <option value="pending">Pending</option>
+            <option value="active">Active</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+          
+          <Badge variant="secondary" className="px-3 py-2">
+            {filteredItems.length} {filteredItems.length === 1 ? 'item' : 'items'}
+          </Badge>
+        </div>
       </div>
 
       {/* Items Grid/List */}
@@ -72,9 +112,7 @@ export function ItemList({ items, onAddNew, onEdit, onDelete }: ItemListProps) {
         {filteredItems.map((item) => (
           <div
             key={item.id}
-            className={`bg-card frosted-glass rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 card-shimmer ${
-              design === 'luxury' ? 'shimmer' : ''
-            }`}
+            className="bg-card frosted-glass rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 card-shimmer"
           >
             <div className="flex items-start justify-between mb-4">
               <h3 className="text-xl font-semibold text-foreground flex-1 mr-2">

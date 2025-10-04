@@ -41,6 +41,14 @@ export default function HomePage() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<Item | null>(null);
   const [deletingItem, setDeletingItem] = useState<Item | null>(null);
+  const [sortBy, setSortBy] = useState<'date' | 'title'>('date');
+
+  const sortedItems = [...items].sort((a, b) => {
+    if (sortBy === 'date') {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    }
+    return a.title.localeCompare(b.title);
+  });
 
   const handleAddNew = () => {
     setEditingItem(null);
@@ -83,12 +91,12 @@ export default function HomePage() {
   };
 
   return (
-    <div className={`min-h-screen bg-background transition-all duration-300 ${design === 'luxury' ? 'shimmer' : ''}`}>
+    <div className="min-h-screen bg-background transition-all duration-300">
       <div className="container mx-auto p-8 max-w-7xl">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div className="flex-1">
-            <h1 className="text-5xl font-bold text-foreground mb-3 shimmer-glow">
+            <h1 className="text-5xl font-bold text-foreground mb-3">
               FrostedData
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl">
@@ -103,7 +111,7 @@ export default function HomePage() {
 
         {/* Main Content */}
         <ItemList
-          items={items}
+          items={sortedItems}
           onAddNew={handleAddNew}
           onEdit={handleEdit}
           onDelete={handleDelete}

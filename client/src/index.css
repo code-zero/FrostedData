@@ -76,59 +76,51 @@
 /* Diagonal Shimmer Animation */
 @keyframes shimmer {
   0% {
-    transform: translate(-100%) translateY(-100%) rotate(45deg);
+    transform: translateX(-100%);
   }
   100% {
-    transform: translate(300%) translateY(300%) rotate(45deg);
+    transform: translateX(100%);
   }
 }
 
-@keyframes shimmer-glow {
-  0%, 100% {
-    opacity: 0;
-    box-shadow: 0 0 10px rgba(0, 150, 255, 0);
+@keyframes button-shimmer {
+  0% {
+    left: -100%;
   }
-  50% {
-    opacity: 1;
-    box-shadow: 0 0 20px rgba(0, 150, 255, 0.3);
+  100% {
+    left: 100%;
   }
 }
 
-.shimmer {
+.button-shimmer {
   position: relative;
   overflow: hidden;
 }
 
-.shimmer::before {
+.button-shimmer::after {
   content: '';
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
   background: linear-gradient(
-    45deg,
-    transparent 30%,
-    rgba(255, 255, 255, 0.3) 50%,
-    transparent 70%
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
   );
-  transform: translate(-100%) translateY(-100%) rotate(45deg);
-  animation: shimmer 3s ease-in-out infinite;
+  animation: button-shimmer 3s ease-in-out infinite;
   pointer-events: none;
-  z-index: 1;
 }
 
-.dark .shimmer::before {
+.dark .button-shimmer::after {
   background: linear-gradient(
-    45deg,
-    transparent 30%,
-    rgba(255, 255, 255, 0.1) 50%,
-    transparent 70%
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
   );
-}
-
-.shimmer-glow {
-  animation: shimmer-glow 2s ease-in-out infinite;
 }
 
 /* Card Shimmer on Hover */

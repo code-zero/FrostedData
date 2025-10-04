@@ -25,7 +25,7 @@ export function DesignSelector() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="shimmer-glow gap-2" data-testid="button-design-selector">
+        <Button variant="ghost" className="gap-2" data-testid="button-design-selector">
           <Palette className="h-4 w-4" />
           <span className="hidden sm:inline">Design:</span>
           <Badge variant="secondary" className="hidden sm:inline">
