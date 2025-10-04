@@ -19,5 +19,6 @@ export default defineConfig({
   },
   server: {
     port: 5173, // Avoid 5000 conflict
+
   },
 });
